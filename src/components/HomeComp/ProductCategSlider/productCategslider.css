@@ -1,0 +1,52 @@
+.slider-container {
+  padding: 20px;
+  background: #ffffff;
+  position: relative;
+  /* background-color: red; */
+  margin: 20px;
+  border-radius: 10px;
+}
+
+.slider-container .categSwiper{
+    /* background-color: green; */
+    margin: 0px 25px;
+}
+.slider-container .categSwiper .cardslide{
+    /* background-color: orange; */
+    height: 100%;
+}
+.slider-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.custom-nav-buttons {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none; /* Allows clicks to pass through if buttons not visible */
+}
+
+.custom-prev,
+.custom-next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  border: none;
+  height: 60px;
+  width: 30px;
+  font-size:2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 10000;
+  pointer-events: auto; /* Re-enable pointer events for buttons */
+  transition: background 0.3s;
+}
+
