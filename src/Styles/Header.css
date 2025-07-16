@@ -1,0 +1,161 @@
+.site-header {
+  background: #ffffff;
+  color: #000000;
+  padding: 15px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+border: 1px solid rgb(203, 203, 203);
+}
+
+/* Logo */
+.logo {
+  font-size: 28px;
+  color: #000000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Navigation */
+.main-nav {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+
+.main-nav .menu_options{
+    display: flex;
+    width: 60%;
+    /* background-color: red; */
+    justify-content: space-between;
+}
+
+/* Dropdown */
+.dropdown {
+  position: relative;
+ 
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  color: #000000;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 45px;
+  left: -250px;
+ background-color: white;
+  padding: 25px;
+  width: 90vw;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 5fr));
+  gap: 20px;
+  border: 1px solid rgb(198, 198, 198);
+}
+
+.dropdown-content .dropdown-item {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #000000;
+  font-size: 14px;
+  transition: transform 0.2s ease;
+  gap: 20px;
+  height: 50px;
+}
+.dropdown-content .dropdown-item .d_item_img{
+    height: 100%;
+    width: 50px;
+}
+.dropdown-content .dropdown-item img {
+height: 100%;
+width: 100%;
+object-fit: contain;
+}
+
+.dropdown-content .dropdown-item:hover {
+  filter: opacity(0.8);
+}
+
+.dropdown-content.dropdown_show {
+  display: grid;
+}
+
+/* Search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #f4f5f7;
+  border-radius: 20px;
+  overflow: hidden;
+  border: none;
+  padding: 0px 10px;
+}
+
+.search-bar input {
+  border: none;
+  padding: 8px 12px;
+  background: transparent;
+  color: #000000;
+  outline: none;
+  width: 180px;
+}
+
+.search-bar button {
+  border: none;
+  padding: 5px 9px;
+  cursor: pointer;
+  color: #000;
+   background: #f4f5f7;
+   font-size: 1rem;
+}
+.profile_options{
+    display: flex;
+    gap: 25px;
+}
+/* Links */
+.nav-link {
+  color: #010101;
+  text-decoration: none;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.nav-link .ic{
+  font-size: 1.2rem;
+}
+/* Cart badge */
+.cart-badge {
+  background: #f0a500;
+  color: #000;
+  border-radius: 50%;
+  padding: 2px 7px;
+  margin-left: 2px;
+  font-size: 12px;
+  vertical-align: top;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-nav {
+    gap: 12px;
+  }
+  .search-bar {
+    display: none;
+  }
+  .dropdown-content {
+    width: 300px;
+  }
+}

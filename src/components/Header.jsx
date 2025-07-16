@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/userSlice';
+import axios from '../axios';
+import "../Styles/Header.css";
+import categories from "../components/HomeComp/CatgoriesSlider/categories";
+import { HiMagnifyingGlass } from "react-icons/hi2";
+import { BsCart4 } from "react-icons/bs";
+import { BsFillPersonFill } from "react-icons/bs";
+
+
 
 const Header = () => {
-  const { token, name, cart } = useSelector(state => state.user);
+  const { token, name } = useSelector(state => state.user);
+  const cartCount = useSelector(state => state.cart.items.length);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const dropdownRef = useRef();
+
+  // Close dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setOpenDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -14,56 +37,59 @@ const Header = () => {
   };
 
   return (
-    <header style={styles.header}>
-      <div>
-        <Link to="/" style={styles.logo}>E-Shop</Link>
+    <header className="site-header">
+      <div className="logo-container">
+        <Link to="/" className="logo">E‑Shop</Link>
       </div>
-      <nav style={styles.nav}>
-        <Link to="/cart" style={styles.link}>
-        Cart
-          {/* Cart ({cart.items.length}) */}
-        </Link>
-        {token ? (
-          <>
-            <Link to="/profile">My Profile</Link>
 
-          </>
-        ) : (
-          <>
-            <Link to="/login" style={styles.link}>Login</Link>
-            <Link to="/register" style={styles.link}>Register</Link>
-          </>
-        )}
+      <nav className="main-nav">
+        <div className="menu_options">
+          <div className="dropdown" ref={dropdownRef}>
+            <button className="dropbtn" onClick={() => setOpenDropdown(prev => !prev)}>
+              All Categories ▾
+            </button>
+            <div className={openDropdown ? "dropdown-content dropdown_show" : "dropdown-content"}>
+              {categories.map(cat => (
+                <Link to={`/category/${cat.name.toLowerCase()}`} className="dropdown-item" onClick={() => setOpenDropdown(prev => !prev)}>
+                  <div className="d_item_img">
+                    <img src={cat.image} alt={cat.name} />
+                  </div>
+                  <span>{cat.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="search-bar">
+            <input type="text" placeholder="Search products..." />
+            <button><HiMagnifyingGlass /></button>
+          </div>
+        </div>
+
+        <div className="profile_options">
+          <Link to="/cart" className="nav-link">
+            <BsCart4 className='ic'/>
+              <span className="cart-badge">{cartCount}</span>
+          </Link>
+
+          {token ? (
+            <>
+              <Link to="/profile" className="nav-link">
+                <BsFillPersonFill className='ic'/>
+ {name ? name.split(' ')[0] : 'User'}
+              </Link>
+  
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link">Login</Link>
+              <Link to="/register" className="nav-link">Register</Link>
+            </>
+          )}
+        </div>
       </nav>
     </header>
   );
-};
-
-const styles = {
-  header: {
-    background: '#333',
-    color: '#fff',
-    padding: '15px 30px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height:"80px"
-  },
-  logo: {
-    color: '#fff',
-    fontSize: '24px',
-    textDecoration: 'none'
-  },
-  nav: { display: 'flex', alignItems: 'center', gap: '15px' },
-  link: { color: '#fff', textDecoration: 'none' },
-  button: {
-    background: '#e74c3c',
-    border: 'none',
-    color: '#fff',
-    padding: '5px 10px',
-    cursor: 'pointer',
-    borderRadius: '4px'
-  }
 };
 
 export default Header;
