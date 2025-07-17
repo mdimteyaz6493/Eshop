@@ -18,10 +18,25 @@ const HomeBanner = () => {
         className="bannerSwiper"
       >
         <SwiperSlide className='bannerslide'>
-          <img src="./allbanner.jpg" alt="Banner 1" />
+          <img src="./b1.jpg" alt="Banner 1" />
         </SwiperSlide>
-        <SwiperSlide className='slide'>
-          <img src="./mobbanner.jpg" alt="Banner 2" />
+        <SwiperSlide className='bannerslide'>
+          <img src="./b2.jpg" alt="Banner 2" />
+        </SwiperSlide>
+         <SwiperSlide className='bannerslide'>
+          <img src="./b3.jpg" alt="Banner 3" />
+        </SwiperSlide>
+         <SwiperSlide className='bannerslide'>
+          <img src="./b4.jpg" alt="Banner 4" />
+        </SwiperSlide>
+         <SwiperSlide className='bannerslide'>
+          <img src="./b5.jpg" alt="Banner 5" />
+        </SwiperSlide>
+        <SwiperSlide className='bannerslide'>
+          <img src="./b6.jpg" alt="Banner 6" />
+        </SwiperSlide>
+        <SwiperSlide className='bannerslide'>
+          <img src="./b7.jpg" alt="Banner 7" />
         </SwiperSlide>
       </Swiper>
     </>

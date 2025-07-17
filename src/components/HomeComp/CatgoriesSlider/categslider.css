@@ -2,7 +2,6 @@
   padding: 20px 50px;
   background: #ffffff;
   position: relative;
-  /* background-color: red; */
   margin: 20px;
   border-radius: 10px;
   height: 250px;
@@ -60,4 +59,37 @@
 .link{
     text-decoration: none;
     color: black;
+}
+
+@media (max-width: 768px) {
+.categ-slider-container {
+  padding: 20px 10px;
+  margin: 0px;
+  height: 200px;
+}
+
+.category-slide{
+    /* background-color: orange; */
+    height: 100%;
+    width: 50px;
+}
+.category-slide .category-card{
+    height: 150px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+}
+.category-card .img_part{
+    height: 50px;
+    width: 50px;
+     position: relative;
+     z-index: 1;
+}
+.category-card .categ_name{
+    font-size: 0.8rem;
+}
 }

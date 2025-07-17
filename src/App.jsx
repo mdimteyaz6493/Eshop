@@ -14,6 +14,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import MyOrders from './pages/MyOrders';
 import Profile from './pages/Profile.jsx';
 import CategoryProducts from './pages/CategoryProducts.jsx';
+import AllProduct from './pages/AllProducts.jsx';
 
 
 function App(){
@@ -36,6 +37,7 @@ function App(){
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/category/:categoryName" element={<CategoryProducts />} />
+        <Route path="/allproduct" element={<AllProduct />} />
     
 
       </Routes>

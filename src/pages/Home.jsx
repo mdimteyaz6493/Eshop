@@ -5,6 +5,7 @@ import HomeBanner from '../components/HomeComp/HomeBanner/HomeBanner';
 import ProductCategSlider from '../components/HomeComp/ProductCategSlider/ProductCategSlider';
 import CategoriesSlider from '../components/HomeComp/CatgoriesSlider/CategoriesSlider';
 import Footer from '../components/Footer/Footer';
+import SmallHomeBanner from '../components/HomeComp/SmallHomeBanner/SmallHomeBanner';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -23,9 +24,9 @@ const Home = () => {
   return (
     <div style={styles.container}>
       <HomeBanner />
+       <CategoriesSlider/>
       <ProductCategSlider products={smartwatches} />
-      <CategoriesSlider/>
-      {/* <Products products={products} /> */}
+      <SmallHomeBanner/>
       <Footer/>
 
     </div>

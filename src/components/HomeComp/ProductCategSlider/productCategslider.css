@@ -50,3 +50,38 @@
   transition: background 0.3s;
 }
 
+@media (max-width: 768px) {
+  .slider-container {
+  padding: 5px;
+  background: #ffffff;
+  position: relative;
+  /* background-color: red; */
+  margin: 20px 0px;
+  border-radius: 10px;
+}
+
+.slider-container .categSwiper{
+    /* background-color: green; */
+    margin: 0px 5px;
+}
+.slider-container .categSwiper .cardslide{
+    /* background-color: orange; */
+    height: 100%;
+}
+.slider-title {
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.custom-nav-buttons {
+  display: none;
+}
+
+.custom-prev,
+.custom-next {
+ display: none;
+}
+
+}

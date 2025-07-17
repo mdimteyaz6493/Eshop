@@ -40,6 +40,20 @@ const CategoriesSlider = () => {
           swiper.params.navigation.prevEl = prevRef.current;
           swiper.params.navigation.nextEl = nextRef.current;
         }}
+         breakpoints={{
+    0: {
+      slidesPerView: 4
+    },
+    480: {
+      slidesPerView: 4,
+    },
+    768: {
+      slidesPerView: 6,
+    },
+    1024: {
+      slidesPerView: 9,
+    },
+  }}
         modules={[FreeMode, Navigation]}
         className="categSwiper"
       >
