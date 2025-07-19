@@ -9,6 +9,9 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 import { BsCart4, BsFillPersonFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
+import AuthModal from "./AuthModal";
+
+
 
 const Header = () => {
   const { token, name } = useSelector((state) => state.user);
@@ -23,6 +26,11 @@ const Header = () => {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [drawerOpen, setDrawerOpen] = useState(false);
+   const [showAuth, setShowAuth] = useState(false);
+   const [showMobileSearch, setShowMobileSearch] = useState(false);
+
+
+
 
   const dropdownRef = useRef();
   const searchDropdownRef = useRef();
@@ -136,49 +144,61 @@ const Header = () => {
             </Link>
           </nav>
         )}
-        <div className="search-bar" ref={searchDropdownRef}>
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchText}
-            onChange={handleSearchChange}
-          />
-          <button>
-            <HiMagnifyingGlass />
-          </button>
+       {(!isMobile || showMobileSearch) && (
+  <div className="search-bar" ref={searchDropdownRef}>
+  {!isMobile && <button>
+      <HiMagnifyingGlass />
+    </button>}
+    <input
+      type="text"
+      placeholder="Search products..."
+      value={searchText}
+      onChange={handleSearchChange}
+    />
 
-          {showSearchDropdown && filteredProducts.length > 0 && (
-            <div className="search-dropdown show_sd">
-              {filteredProducts.map((product) => (
-                <Link
-                  to={`/product/${product._id}`}
-                  className="dropdown-item"
-                  key={product._id}
-                  onClick={() => {
-                    setShowSearchDropdown(false);
-                    setSearchText("");
-                  }}
-                >
-                  <div className="d_item_img">
-                    <img src={product.image} alt={product.name} />
-                  </div>
-                  <span>{product.name}</span>
-                </Link>
-              ))}
+    {showSearchDropdown && filteredProducts.length > 0 && (
+      <div className="search-dropdown show_sd">
+        {filteredProducts.map((product) => (
+          <Link
+            to={`/product/${product._id}`}
+            className="dropdown-item"
+            key={product._id}
+            onClick={() => {
+              setShowSearchDropdown(false);
+              setSearchText("");
+              setShowMobileSearch(false); // Hide search bar after selection
+            }}
+          >
+            <div className="d_item_img">
+              <img src={product.image} alt={product.name} />
             </div>
-          )}
-        </div>
+            <span>{product.name}</span>
+          </Link>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+        
         <div className="profile_options">
-          {isMobile && (
-            <button className="search-icon">
-              <HiMagnifyingGlass />
-            </button>
-          )}
+         {isMobile && (
+  <button
+    className="search-icon"
+    onClick={() => setShowMobileSearch((prev) => !prev)}
+  >
+    <HiMagnifyingGlass />
+  </button>
+)}
 
           <Link to="/cart" className="nav-link">
             <BsCart4 className="ic" />
             <span className="cart-badge">{cartCount}</span>
           </Link>
+    {isMobile && !token && (
+  <button className="nav_btn" onClick={() => setShowAuth(true)}>
+    <BsFillPersonFill className="ic" />
+  </button>
+)}
 
           {token ? (
            <>
@@ -192,12 +212,7 @@ const Header = () => {
           ) : (
             !isMobile && (
               <>
-                <Link to="/login" className="nav-link">
-                  Login
-                </Link>
-                <Link to="/register" className="nav-link">
-                  Register
-                </Link>
+                 <button className="nav_btn" onClick={() => setShowAuth(true)}><BsFillPersonFill className="ic" /></button>
               </>
             )
           )}
@@ -235,8 +250,12 @@ const Header = () => {
           </div>
         </div>
       )}
+
+        {showAuth &&  <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />}
     </>
   );
+
+
 };
 
 export default Header;

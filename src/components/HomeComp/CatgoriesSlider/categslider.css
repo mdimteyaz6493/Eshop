@@ -92,4 +92,9 @@
 .category-card .categ_name{
     font-size: 0.8rem;
 }
+
+.category-card .img_part::after {
+    height: 50px;
+    width: 50px;
+}
 }

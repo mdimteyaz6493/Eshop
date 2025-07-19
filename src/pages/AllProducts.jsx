@@ -3,6 +3,8 @@ import axios from '../axios';
 import '../Styles/allproduct.css';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
+import { RiListSettingsFill } from "react-icons/ri";
+
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +15,7 @@ const AllProduct = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortOrder, setSortOrder] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setfilter] = useState(false)
 
   const itemsPerPage = 8;
 
@@ -72,9 +75,10 @@ const AllProduct = () => {
     <>
       <div className="product-page light-theme">
         <h2>All Products</h2>
+       <RiListSettingsFill className='filter_ic' onClick={() => setfilter(prev => !prev)} />
 
         <div className="filters-container">
-          <div className="filters">
+          <div className={filter ? "filters showfilters":"filters"}>
             <input
               type="text"
               placeholder="Search products..."

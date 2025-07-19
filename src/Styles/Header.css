@@ -55,7 +55,7 @@
   display: none;
   position: absolute;
   top: 45px;
-  left: -380px;
+  left: -200px;
  background-color: white;
   padding: 25px;
   width: 90vw;
@@ -102,11 +102,13 @@ object-fit: contain;
 .search-bar {
   display: flex;
   align-items: center;
-  background: #f4f5f7;
+  background: #eeeeee;
   border-radius: 20px;
   overflow: hidden;
   border: none;
   padding: 0px 10px;
+  width: 300px;
+  height: 40px;
 }
 
 .search-bar input {
@@ -117,13 +119,16 @@ object-fit: contain;
   outline: none;
   width: 180px;
 }
+.search-bar input::placeholder {
+  color: #000000;
 
+}
 .search-bar button {
   border: none;
   padding: 5px 9px;
   cursor: pointer;
   color: #000;
-   background: #f4f5f7;
+  background: #eeeeee;
    font-size: 1rem;
 }
 
@@ -166,7 +171,8 @@ object-fit: contain;
   color: #000;
   border-radius: 50%;
   padding: 2px 7px;
-  margin-left: 2px;
+  margin-left: -10px;
+  margin-top: -10px;
   font-size: 12px;
   vertical-align: top;
 }
@@ -189,6 +195,13 @@ object-fit: contain;
   color: black;
 }
 
+.nav_btn{
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+
+}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -198,11 +211,13 @@ object-fit: contain;
 }
   .header-left{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    /* background-color: red; */
+    height: 100%;
   }
   .header-left .drawer_btn{
+    font-size: 1.5rem;
+    margin-top: 5px;
+  }
+  .logo{
     font-size: 1.5rem;
   }
   .main-nav {
@@ -217,11 +232,12 @@ object-fit: contain;
 .logo {
   font-size: 1.5rem;
 }
-.search-bar{
-  display: none;
-}
-.profile_options{
-}
+.search-bar {
+    width: 200%;
+    padding: 10px;
+     z-index: 999999999;
+  }
+
 .search-icon{
   background: white;
   outline: none;
@@ -234,14 +250,18 @@ object-fit: contain;
 .search-dropdown{
   display: none;
   position: absolute;
-  top: 60px;
+  top: 70px;
   left: 0px;
  background-color: white;
   padding: 25px;
-  width: 90vw;
+  width: 100vw;
   grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));
   gap: 20px;
   border: 1px solid rgb(198, 198, 198);
+  overflow-y: scroll;
+  height: auto;
+  max-height: 700px;
+  z-index: 600005423;
 }
 /* Links */
 .nav-link {
@@ -252,10 +272,11 @@ object-fit: contain;
 }
 /* Cart badge */
 .cart-badge {
-  padding: 2px 5px;
+  padding: 3px 8px;
   margin-left: -15px;
   margin-top: -15px;
-  font-size: 8px;
+  font-size: 10px;
+  font-weight: 1000;
 }
 
 .mobile-drawer {

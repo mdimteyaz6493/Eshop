@@ -47,10 +47,10 @@ const ProductCategSlider = ({ products = [] }) => {
       slidesPerView: 4,
     },
     768: {
-      slidesPerView: 6,
+      slidesPerView: 5,
     },
     1024: {
-      slidesPerView: 9,
+      slidesPerView: 5,
     },
   }}
         modules={[FreeMode, Navigation]}

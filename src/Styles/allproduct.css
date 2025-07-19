@@ -10,6 +10,14 @@
   margin-bottom: 20px;
 }
 
+.filter_ic{
+  position: absolute;
+  top: 90px;
+  left: 20px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  z-index: 99999;
+}
 .filters-container {
   display: flex;
   flex-wrap: wrap;
@@ -130,4 +138,48 @@
 .pagination .active {
   background: #007bff;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .product-page {
+  padding: 20px 0px;
+    height: 180vh; 
+}
+.filters-container{
+
+}
+.filters {
+  width: 100%;
+  position: absolute;
+  z-index: 11111;
+  left: -100%;
+  transition: 0.2s ease-in-out;
+}
+.filters.showfilters{
+  left: 0%;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 2fr));
+  gap: 0px;
+  padding: 0px 0px;
+  
+}
+
+.product-card {
+  height: 280px;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+}
+
+.product-card img {
+  width: 100%;
+  height: 130px;
+  object-fit: contain;
+}
+.card-body h4{
+  font-size: 0.9rem;
+}
 }

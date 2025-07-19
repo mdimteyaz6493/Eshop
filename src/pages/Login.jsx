@@ -5,6 +5,7 @@ import { setUser } from '../redux/userSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "../Styles/login.css"
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -28,7 +29,7 @@ const Login = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className='login-container'>
       <ToastContainer />
       <h2>Login</h2>
       <form onSubmit={handleLogin}>

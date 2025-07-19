@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from '../axios';
 import ProductCard from '../components/ProductCard';
 import Footer from '../components/Footer/Footer';
+import "../Styles/categoryproduct.css"
 
 const CategoryProducts = () => {
   const { categoryName } = useParams();
@@ -21,21 +22,21 @@ const CategoryProducts = () => {
   }, [categoryName]);
 
   return (
-   <>
-     <div style={{ padding: '20px' }}>
-      <h2>Category: {categoryName}</h2>
-      {products.length === 0 ? (
-        <p>No products found for this category.</p>
-      ) : (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
-      )}
-    </div>
-    <Footer/>
-   </>
+    <>
+      <div className="category-products-container">
+        <h2 className="category-products-heading">Category: {categoryName}</h2>
+        {products.length === 0 ? (
+          <p className="category-products-empty">No products found for this category.</p>
+        ) : (
+          <div className="category-products-list">
+            {products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 
