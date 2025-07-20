@@ -36,7 +36,17 @@
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-
+.login-modal p{
+  margin-top: 10px;
+  text-align: center;
+}
+.switch-link{
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: rgb(117, 117, 220);
+  font-size: 1.1rem;
+}
 .login-modal button[type="submit"] {
   background-color: #3ac222;
   color: white;

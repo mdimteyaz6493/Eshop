@@ -1,5 +1,6 @@
 .category-products-container {
   padding: 20px;
+  min-height: 100vh;
 }
 
 .category-products-heading {
@@ -23,7 +24,7 @@
 
 @media (max-width: 768px) {
     .category-products-container {
-  padding: 20px;
+  padding: 20px 0px;
 }
 
 .category-products-heading {
@@ -31,15 +32,14 @@
   margin-bottom: 20px;
   color: #333;
   text-transform: capitalize;
+  margin-left: 20px;
 }
 
 .category-products-list {
-width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
+display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 2fr));
+  gap: 0px;
+  padding: 0px 0px;
 }
 
 .category-products-empty {

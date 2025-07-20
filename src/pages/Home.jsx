@@ -34,7 +34,7 @@ const Home = () => {
 };
 
 const styles = {
-  container: { padding: '0px',backgroundColor:"#f5f0f0ff"},
+  container: { padding: '0px',backgroundColor:"white"},
 
 };
 

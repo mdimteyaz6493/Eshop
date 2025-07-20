@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, addToCart } from "../redux/cartSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer/Footer";
+
 
 import "../Styles/cart.css";
 
@@ -10,8 +11,18 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const total = cart.reduce((acc, item) => acc + item.qty * item.price, 0);
+
+    useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+    useEffect(() => {
+      const handleResize = () => setIsMobile(window.innerWidth <= 768);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
   return (
     <>
@@ -70,17 +81,18 @@ const Cart = () => {
                 ))}
               </div>
               <div className="cart-checkout">
-               <p>You are eligible for free delivery</p>
-                <h3>Total Amount : ₹{total}</h3>
+              <div className="top">
+                {!isMobile &&  <p>You are eligible for free delivery</p>}
+                <h3>{!isMobile && "Total Amount :"}  ₹{total}</h3>
+              </div>
                 <button onClick={() => navigate("/checkout")}>
-                 Proceed to checkout
+                 {!isMobile ? "Proceed to checkout" : "Pay Now"}
                 </button>
               </div>
             </div>
           </>
         )}
       </div>
-      <Footer />
     </>
   );
 };

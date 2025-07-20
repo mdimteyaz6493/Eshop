@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from '../axios';
 import '../Styles/allproduct.css';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
 import { RiListSettingsFill } from "react-icons/ri";
-
+import { IoMdClose } from "react-icons/io";
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -15,11 +15,12 @@ const AllProduct = () => {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [sortOrder, setSortOrder] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [filter, setfilter] = useState(false)
+  const [filter, setfilter] = useState(false);
 
+  const filterRef = useRef(null);
   const itemsPerPage = 8;
 
-  const categories = ['All', 'Iphone', 'Laptop', 'Cameras','Earbuds', 'smartwatch', 'Headphones','Samsung',];
+  const categories = ['All', 'Iphone', 'Laptop', 'Cameras', 'Earbuds', 'smartwatch', 'Headphones', 'Samsung'];
   const brands = ['Apple', 'Samsung', 'Canon', 'Sony', 'HP', 'Dell', 'Realme', 'Boat'];
 
   useEffect(() => {
@@ -58,6 +59,56 @@ const AllProduct = () => {
     setCurrentPage(1);
   }, [search, selectedCategory, priceRange, selectedBrands, sortOrder, products]);
 
+  useEffect(() => {
+    if (filter) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [filter]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        filter &&
+        filterRef.current &&
+        !filterRef.current.contains(e.target) &&
+        e.target.tagName !== 'INPUT'
+      ) {
+        setfilter(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [filter]);
+
+  useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (
+      filter &&
+      filterRef.current &&
+      !filterRef.current.contains(e.target) &&
+      e.target.tagName !== 'INPUT'
+    ) {
+      setfilter(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => document.removeEventListener('mousedown', handleClickOutside);
+}, [filter]);
+
+// ✅ Scroll to top when page changes
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, [currentPage]);
+
+
   const handleBrandToggle = brand => {
     setSelectedBrands(prev =>
       prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
@@ -75,10 +126,12 @@ const AllProduct = () => {
     <>
       <div className="product-page light-theme">
         <h2>All Products</h2>
-       <RiListSettingsFill className='filter_ic' onClick={() => setfilter(prev => !prev)} />
+        <RiListSettingsFill className='filter_ic' onClick={() => setfilter(prev => !prev)} />
 
         <div className="filters-container">
-          <div className={filter ? "filters showfilters":"filters"}>
+          <div ref={filterRef} className={filter ? "filters showfilters" : "filters"}>
+            <IoMdClose className='filter_close_btn' onClick={() => setfilter(false)} />
+
             <input
               type="text"
               placeholder="Search products..."

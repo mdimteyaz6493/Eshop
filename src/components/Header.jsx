@@ -10,8 +10,7 @@ import { BsCart4, BsFillPersonFill } from "react-icons/bs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import AuthModal from "./AuthModal";
-
-
+import { IoMdClose } from "react-icons/io";
 
 const Header = () => {
   const { token, name } = useSelector((state) => state.user);
@@ -26,11 +25,8 @@ const Header = () => {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [drawerOpen, setDrawerOpen] = useState(false);
-   const [showAuth, setShowAuth] = useState(false);
-   const [showMobileSearch, setShowMobileSearch] = useState(false);
-
-
-
+  const [showAuth, setShowAuth] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const dropdownRef = useRef();
   const searchDropdownRef = useRef();
@@ -40,6 +36,18 @@ const Header = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (showMobileSearch || drawerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showMobileSearch, drawerOpen]);
 
   useEffect(() => {
     axios
@@ -90,12 +98,15 @@ const Header = () => {
         <div className="header-left">
           {isMobile && (
             <>
-            {drawerOpen ?   <button onClick={() => setDrawerOpen(false)} className="hamburger">
-              <IoCloseSharp /> 
-            </button> :<button className="hamburger" onClick={() => setDrawerOpen(true)}>
-              <GiHamburgerMenu className="drawer_btn"/>
-            </button>}
-              
+              {drawerOpen ? (
+                <button onClick={() => setDrawerOpen(false)} className="hamburger">
+                  <IoCloseSharp />
+                </button>
+              ) : (
+                <button className="hamburger" onClick={() => setDrawerOpen(true)}>
+                  <GiHamburgerMenu className="drawer_btn" />
+                </button>
+              )}
             </>
           )}
           <Link to="/" className="logo">
@@ -105,24 +116,12 @@ const Header = () => {
 
         {!isMobile && (
           <nav className="main-nav">
-            <Link className="nav-link" to="/">
-              Home
-            </Link>
-
+            <Link className="nav-link" to="/">Home</Link>
             <div className="dropdown" ref={dropdownRef}>
-              <button
-                className="dropbtn"
-                onClick={() => setOpenDropdown((prev) => !prev)}
-              >
+              <button className="dropbtn" onClick={() => setOpenDropdown((prev) => !prev)}>
                 All Categories ▾
               </button>
-              <div
-                className={
-                  openDropdown
-                    ? "dropdown-content dropdown_show"
-                    : "dropdown-content"
-                }
-              >
+              <div className={openDropdown ? "dropdown-content dropdown_show" : "dropdown-content"}>
                 {categories.map((cat) => (
                   <Link
                     key={cat.name}
@@ -138,98 +137,103 @@ const Header = () => {
                 ))}
               </div>
             </div>
-
-            <Link className="nav-link" to="/allproduct">
-              Products
-            </Link>
+            <Link className="nav-link" to="/allproduct">Products</Link>
           </nav>
         )}
-       {(!isMobile || showMobileSearch) && (
-  <div className="search-bar" ref={searchDropdownRef}>
-  {!isMobile && <button>
-      <HiMagnifyingGlass />
-    </button>}
-    <input
-      type="text"
-      placeholder="Search products..."
-      value={searchText}
-      onChange={handleSearchChange}
-    />
 
-    {showSearchDropdown && filteredProducts.length > 0 && (
-      <div className="search-dropdown show_sd">
-        {filteredProducts.map((product) => (
-          <Link
-            to={`/product/${product._id}`}
-            className="dropdown-item"
-            key={product._id}
-            onClick={() => {
-              setShowSearchDropdown(false);
-              setSearchText("");
-              setShowMobileSearch(false); // Hide search bar after selection
-            }}
-          >
-            <div className="d_item_img">
-              <img src={product.image} alt={product.name} />
-            </div>
-            <span>{product.name}</span>
-          </Link>
-        ))}
-      </div>
-    )}
-  </div>
-)}
-        
+        {(!isMobile || showMobileSearch) && (
+          <div className="search-bar" ref={searchDropdownRef}>
+            {!isMobile && <button><HiMagnifyingGlass /></button>}
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchText}
+              onChange={handleSearchChange}
+            />
+            <IoMdClose className="search_close_btn" onClick={() => setShowMobileSearch(false)} />
+            {showSearchDropdown && filteredProducts.length > 0 && (
+              <div className="search-dropdown show_sd">
+                {filteredProducts.map((product) => (
+                  <Link
+                    to={`/product/${product._id}`}
+                    className="dropdown-item"
+                    key={product._id}
+                    onClick={() => {
+                      setShowSearchDropdown(false);
+                      setSearchText("");
+                      setShowMobileSearch(false);
+                    }}
+                  >
+                    <div className="d_item_img">
+                      <img src={product.image} alt={product.name} />
+                    </div>
+                    <span>{product.name}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="profile_options">
-         {isMobile && (
-  <button
-    className="search-icon"
-    onClick={() => setShowMobileSearch((prev) => !prev)}
-  >
-    <HiMagnifyingGlass />
-  </button>
-)}
+          {isMobile && (
+            <button className="search-icon" onClick={() => setShowMobileSearch((prev) => !prev)}>
+              <HiMagnifyingGlass />
+            </button>
+          )}
 
           <Link to="/cart" className="nav-link">
             <BsCart4 className="ic" />
             <span className="cart-badge">{cartCount}</span>
           </Link>
-    {isMobile && !token && (
-  <button className="nav_btn" onClick={() => setShowAuth(true)}>
-    <BsFillPersonFill className="ic" />
-  </button>
-)}
+
+          {isMobile && !token && (
+            <button className="nav_btn" onClick={() => setShowAuth(true)}>
+              <BsFillPersonFill className="ic" />
+            </button>
+          )}
 
           {token ? (
-           <>
-            {!isMobile ?  <Link to="/profile" className="nav-link">
-              <BsFillPersonFill className="ic" />
-              {name ? name.split(" ")[0] : "User"}
-            </Link>: <Link to="/profile" className="nav-link">
-              <BsFillPersonFill className="ic" />
-            </Link>}
-           </>
+            <>
+              {!isMobile ? (
+                <Link to="/profile" className="nav-link">
+                  <BsFillPersonFill className="ic" />
+                  {name ? name.split(" ")[0] : "User"}
+                </Link>
+              ) : (
+                <Link to="/profile" className="nav-link">
+                  <BsFillPersonFill className="ic" />
+                </Link>
+              )}
+            </>
           ) : (
             !isMobile && (
-              <>
-                 <button className="nav_btn" onClick={() => setShowAuth(true)}><BsFillPersonFill className="ic" /></button>
-              </>
+              <button className="nav_btn" onClick={() => setShowAuth(true)}>
+                <BsFillPersonFill className="ic" />
+              </button>
             )
           )}
         </div>
       </header>
 
-      {/* Mobile Sidebar Drawer */}
-      {isMobile &&(
-        <div className={drawerOpen ? "mobile-drawer show_drawer":"mobile-drawer"}>
-        <div className="drawer_links">
-           <Link className="nav-link" to="/" onClick={() => setDrawerOpen(false)}>
-              Home
-            </Link>
-            <Link className="nav-link" to="/allproduct" onClick={() => setDrawerOpen(false)}>
-              Products
-            </Link>
-        </div>
+      {/* 🔥 Overlay Background */}
+      {(openDropdown || showSearchDropdown || showMobileSearch) && (
+        <div
+          className="header-overlay"
+          onClick={() => {
+            setOpenDropdown(false);
+            setShowSearchDropdown(false);
+          }}
+        ></div>
+      )}
+
+      {/* 📱 Mobile Drawer */}
+      {isMobile && (
+        <div className={drawerOpen ? "mobile-drawer show_drawer" : "mobile-drawer"}>
+          <div className="drawer_links">
+            <Link className="nav-link" to="/" onClick={() => setDrawerOpen(false)}>Home</Link>
+            <Link className="nav-link" to="/allproduct" onClick={() => setDrawerOpen(false)}>Products</Link>
+          </div>
           <div className="drawer-header">
             <h3>All Categories</h3>
           </div>
@@ -251,11 +255,10 @@ const Header = () => {
         </div>
       )}
 
-        {showAuth &&  <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />}
+      {/* 🔐 Auth Modal */}
+      {showAuth && <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />}
     </>
   );
-
-
 };
 
 export default Header;

@@ -1,7 +1,7 @@
 .cart-container {
   padding: 20px 40px;
   min-height: calc(100vh - 300px);
-  background-color: #eaeded;
+  background-color: #ffffff;
 }
 .cart_content{
     width: 100%;
@@ -140,14 +140,15 @@ box-shadow: 2.5px 2.5px 8px rgba(0,0,0,0.2);;
 @media (max-width: 768px) {
 .cart-container {
   padding: 20px 10px;
-  min-height: calc(100vh - 80px);
-  background-color: #eaeded;
+  height: 100vh;
 }
 .cart_content{
     width: 100%;
+    height: 70%;
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    overflow-y: scroll;
 }
 .cart_item_details{
 width: 100%;
@@ -157,12 +158,15 @@ width: 100%;
   flex-direction: column;
   height: auto;
   width: 100%;
-  padding: 0px 0px;
+  padding: 20px 0px;
   position: relative;
+  box-shadow: none;
+  border-bottom: 1px solid rgb(150, 150, 150);
+  border-radius: 0px;
 }
 
 .cart-item .cart_item_img {
-    height: 200px;
+    height: 180px;
   width: 100%;
   border-radius: 4px;
   object-fit: contain;
@@ -187,33 +191,47 @@ width: 100%;
     margin-left: 00px;
   font-size: 1.2rem;
   width: 100%;
-  height: 200px;
-  border-radius: 10px;
+  height: 100px;
+  border-radius: 0px;
   padding: 20px;
   background-color: white;
-  right: 40px;
-  top: 0px;
+  position: fixed;
+  right: 00px;
+  top: 650px;
   text-align: center;
-box-shadow: 2.5px 2.5px 8px rgba(0,0,0,0.2);;
-
+  display: flex;
+  gap: 10px;
+  box-shadow: 5px 0px 10px rgba(0,0,0,0.7);
 }
 .cart-checkout p{
     color: rgb(5, 112, 78);
-    font-size: 1rem;
+    font-size: 0.6rem;
     margin-bottom: 10px;
     font-weight: 500;
 }
+.cart-checkout h3{
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.cart-checkout .top{
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .cart-checkout button{
-    background-color: rgb(249, 229, 9);
+    background-color: rgb(0, 0, 0);
     outline: none;
     border: none;
-    font-size: 1rem;
-    padding: 10px 40px ;
-    margin-top: 20px;
-    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+    padding: 0px ;
+    margin-top: 00px;
+    color: rgb(255, 255, 255);
     cursor: pointer;
-    border-radius: 20px;
-    font-weight: 350;
+    border-radius: 5px;
+    font-weight: 400;
+    height: 60px;
+    width: 70%;
 }
 
 .cart-checkout button:hover{

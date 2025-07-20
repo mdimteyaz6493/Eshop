@@ -15,7 +15,7 @@
   background-color: white;
   padding: 30px;
   border-radius: 8px;
-  width: 100%;
+ width: 320px;
   max-width: 400px;
   position: relative;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
@@ -33,7 +33,6 @@
 
 .register-heading {
   margin-bottom: 20px;
-  text-align: center;
 }
 
 .register-input {
@@ -48,7 +47,7 @@
 .register-button {
   width: 100%;
   padding: 10px;
-  background-color: #3498db;
+   background-color: #3ac222;
   color: #fff;
   border: none;
   border-radius: 5px;
