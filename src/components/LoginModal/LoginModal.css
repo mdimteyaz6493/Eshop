@@ -19,6 +19,7 @@
   position: relative;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
   animation: fadeIn 0.3s ease-in-out;
+  z-index: 21000;
 }
 
 .login-modal h2 {

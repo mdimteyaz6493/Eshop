@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/userSlice";
 import axios from "../axios";
@@ -11,12 +11,19 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import AuthModal from "./AuthModal";
 import { IoMdClose } from "react-icons/io";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import { GoPlus } from "react-icons/go";
+import { LuMinus } from "react-icons/lu";
+import { HiArrowLeft } from "react-icons/hi";
+
 
 const Header = () => {
   const { token, name } = useSelector((state) => state.user);
   const cartCount = useSelector((state) => state.cart?.items?.length || 0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   const [openDropdown, setOpenDropdown] = useState(false);
   const [products, setProducts] = useState([]);
@@ -27,9 +34,12 @@ const Header = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const [fullCateg, setfullCateg] = useState(false);
 
   const dropdownRef = useRef();
   const searchDropdownRef = useRef();
+  const searchInputRef = useRef(null);
+
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -38,14 +48,23 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+  if (showMobileSearch && isMobile) {
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 100); // slight delay helps in some mobile browsers
+  }
+}, [showMobileSearch, isMobile]);
+
+
+  useEffect(() => {
     if (showMobileSearch || drawerOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     }
 
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, [showMobileSearch, drawerOpen]);
 
@@ -92,23 +111,28 @@ const Header = () => {
     navigate("/");
   };
 
+  const Profilebtn = () => {
+    setShowAuth(true);
+    setDrawerOpen(false);
+  };
   return (
     <>
       <header className="site-header">
         <div className="header-left">
-          {isMobile && (
-            <>
-              {drawerOpen ? (
-                <button onClick={() => setDrawerOpen(false)} className="hamburger">
-                  <IoCloseSharp />
-                </button>
-              ) : (
-                <button className="hamburger" onClick={() => setDrawerOpen(true)}>
-                  <GiHamburgerMenu className="drawer_btn" />
-                </button>
-              )}
-            </>
-          )}
+        {isMobile && location.pathname === "/" ? (
+    <button
+      className="hamburger"
+      onClick={() => setDrawerOpen((prev) => !prev)}
+    >
+      <GiHamburgerMenu className="drawer_btn" />
+    </button>
+  ) : (
+    isMobile && (
+      <button className="hamburger" onClick={() => navigate(-1)}>
+        <HiArrowLeft  className="drawer_btn" /> {/* or use any back icon like ← */}
+      </button>
+    )
+  )}
           <Link to="/" className="logo">
             E‑Shop
           </Link>
@@ -116,12 +140,23 @@ const Header = () => {
 
         {!isMobile && (
           <nav className="main-nav">
-            <Link className="nav-link" to="/">Home</Link>
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
             <div className="dropdown" ref={dropdownRef}>
-              <button className="dropbtn" onClick={() => setOpenDropdown((prev) => !prev)}>
+              <button
+                className="dropbtn"
+                onClick={() => setOpenDropdown((prev) => !prev)}
+              >
                 All Categories ▾
               </button>
-              <div className={openDropdown ? "dropdown-content dropdown_show" : "dropdown-content"}>
+              <div
+                className={
+                  openDropdown
+                    ? "dropdown-content dropdown_show"
+                    : "dropdown-content"
+                }
+              >
                 {categories.map((cat) => (
                   <Link
                     key={cat.name}
@@ -137,20 +172,30 @@ const Header = () => {
                 ))}
               </div>
             </div>
-            <Link className="nav-link" to="/allproduct">Products</Link>
+            <Link className="nav-link" to="/allproduct">
+              Products
+            </Link>
           </nav>
         )}
 
         {(!isMobile || showMobileSearch) && (
           <div className="search-bar" ref={searchDropdownRef}>
-            {!isMobile && <button><HiMagnifyingGlass /></button>}
+            {!isMobile && (
+              <button>
+                <HiMagnifyingGlass />
+              </button>
+            )}
             <input
               type="text"
               placeholder="Search products..."
               value={searchText}
               onChange={handleSearchChange}
+               ref={searchInputRef}
             />
-            <IoMdClose className="search_close_btn" onClick={() => setShowMobileSearch(false)} />
+            <IoMdClose
+              className="search_close_btn"
+              onClick={() => setShowMobileSearch(false)}
+            />
             {showSearchDropdown && filteredProducts.length > 0 && (
               <div className="search-dropdown show_sd">
                 {filteredProducts.map((product) => (
@@ -177,7 +222,10 @@ const Header = () => {
 
         <div className="profile_options">
           {isMobile && (
-            <button className="search-icon" onClick={() => setShowMobileSearch((prev) => !prev)}>
+            <button
+              className="search-icon"
+              onClick={() => setShowMobileSearch((prev) => !prev)}
+            >
               <HiMagnifyingGlass />
             </button>
           )}
@@ -187,22 +235,12 @@ const Header = () => {
             <span className="cart-badge">{cartCount}</span>
           </Link>
 
-          {isMobile && !token && (
-            <button className="nav_btn" onClick={() => setShowAuth(true)}>
-              <BsFillPersonFill className="ic" />
-            </button>
-          )}
-
           {token ? (
             <>
-              {!isMobile ? (
+              {!isMobile && (
                 <Link to="/profile" className="nav-link">
                   <BsFillPersonFill className="ic" />
                   {name ? name.split(" ")[0] : "User"}
-                </Link>
-              ) : (
-                <Link to="/profile" className="nav-link">
-                  <BsFillPersonFill className="ic" />
                 </Link>
               )}
             </>
@@ -217,46 +255,100 @@ const Header = () => {
       </header>
 
       {/* 🔥 Overlay Background */}
-      {(openDropdown || showSearchDropdown || showMobileSearch) && (
+      {(openDropdown ||
+        showSearchDropdown ||
+        showMobileSearch ||
+        drawerOpen) && (
         <div
           className="header-overlay"
           onClick={() => {
             setOpenDropdown(false);
             setShowSearchDropdown(false);
+            setDrawerOpen(false)
+            setShowMobileSearch(false)
           }}
         ></div>
       )}
 
       {/* 📱 Mobile Drawer */}
       {isMobile && (
-        <div className={drawerOpen ? "mobile-drawer show_drawer" : "mobile-drawer"}>
+        <div
+          className={drawerOpen ? "mobile-drawer show_drawer" : "mobile-drawer"}
+        >
+          <div
+            className={
+              fullCateg ? "d_categ_container expand" : "d_categ_container"
+            }
+          >
+            <div
+              className="drawer-header"
+              style={{ backgroundColor: fullCateg ? "#B2BEB5" : "white" }}
+            >
+              <span>All Categories</span>
+              {!fullCateg ? (
+                <GoPlus
+                  className="r_arrow"
+                  onClick={() => setfullCateg((prev) => !prev)}
+                />
+              ) : (
+                <LuMinus
+                  className="r_arrow"
+                  onClick={() => setfullCateg((prev) => !prev)}
+                />
+              )}
+            </div>
+            <div className="drawer-content">
+              {categories.map((cat) => (
+                <Link
+                  key={cat.name}
+                  to={`/category/${cat.name.toLowerCase()}`}
+                  className="drawer-item"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  <div className="d_item_img">
+                    <img src={cat.image} alt={cat.name} />
+                  </div>
+                  <span>{cat.name}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
           <div className="drawer_links">
-            <Link className="nav-link" to="/" onClick={() => setDrawerOpen(false)}>Home</Link>
-            <Link className="nav-link" to="/allproduct" onClick={() => setDrawerOpen(false)}>Products</Link>
-          </div>
-          <div className="drawer-header">
-            <h3>All Categories</h3>
-          </div>
-          <div className="drawer-content">
-            {categories.map((cat) => (
+            <div className="link_cont">
+              {isMobile && !token && (
+                <button className="nav_btn" onClick={Profilebtn}>
+                  Account
+                </button>
+              )}
+              {isMobile && token && (
+                <Link
+                  to="/profile"
+                  className="nav-link"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  <span className="uname"> Account</span>
+                </Link>
+              )}
+              <MdKeyboardArrowRight className="r_arrow" />
+            </div>
+            <div className="link_cont">
               <Link
-                key={cat.name}
-                to={`/category/${cat.name.toLowerCase()}`}
-                className="drawer-item"
+                className="nav-link"
+                to="/allproduct"
                 onClick={() => setDrawerOpen(false)}
               >
-                <div className="d_item_img">
-                  <img src={cat.image} alt={cat.name} />
-                </div>
-                <span>{cat.name}</span>
+                Products
               </Link>
-            ))}
+              <MdKeyboardArrowRight className="r_arrow" />
+            </div>
           </div>
         </div>
       )}
 
       {/* 🔐 Auth Modal */}
-      {showAuth && <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />}
+      {showAuth && (
+        <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
+      )}
     </>
   );
 };

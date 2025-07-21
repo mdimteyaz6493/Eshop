@@ -24,6 +24,15 @@ const Cart = () => {
       return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+useEffect(() => {
+  if (isMobile) {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }
+}, [isMobile]);
+
   return (
     <>
       <div className="cart-container">
@@ -84,6 +93,7 @@ const Cart = () => {
               <div className="top">
                 {!isMobile &&  <p>You are eligible for free delivery</p>}
                 <h3>{!isMobile && "Total Amount :"}  ₹{total}</h3>
+                <p>include tax</p>
               </div>
                 <button onClick={() => navigate("/checkout")}>
                  {!isMobile ? "Proceed to checkout" : "Pay Now"}
