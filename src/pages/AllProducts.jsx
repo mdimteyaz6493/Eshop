@@ -21,7 +21,7 @@ const AllProduct = () => {
   
 
   const filterRef = useRef(null);
-  const itemsPerPage = 8;
+  const itemsPerPage = 10;
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
@@ -166,11 +166,15 @@ const AllProduct = () => {
   return (
     <>
       <div className="product-page light-theme">
-        <h2>All Products</h2>
-        <RiListSettingsFill
+      <span className="page_heading">Explore our products</span>
+        <div className="page_title"><span>All Products</span></div>
+       <div className="filter_btn">
+       <RiListSettingsFill
           className="filter_ic"
-          onClick={() => setfilter((prev) => !prev)}
         />
+       <span onClick={() => setfilter((prev) => !prev)}>Filters</span>
+         
+       </div>
 
         <div className="filters-container">
           <div
@@ -181,6 +185,8 @@ const AllProduct = () => {
               className="filter_close_btn"
               onClick={() => setfilter(false)}
             />
+
+            <span className="filter_title">Filters</span>
 
             <input
               type="text"
@@ -308,6 +314,8 @@ const AllProduct = () => {
             )}
           </div>
         </div>
+        {filter && <div className="overlay" onClick={() => setfilter(false)}></div>}
+
       </div>
 
       <Footer />
