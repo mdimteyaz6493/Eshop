@@ -235,11 +235,13 @@ select {
   bottom: 80px;
   left: 0;
   background-color: white;
-  padding: 0px 10px;
+  padding: 10px 10px;
   border-top: 1px solid rgb(212, 212, 212);
+      z-index: 111111;
+
 }
 .product-info .price_lable p {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
   .btn_grp {
     position: fixed;
@@ -251,6 +253,7 @@ select {
     background-color: white;
     height: 80px;
     padding: 0px 10px;
+    z-index: 111111;
   }
 
   .product-button {

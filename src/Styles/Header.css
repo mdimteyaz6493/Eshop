@@ -127,6 +127,7 @@ object-fit: contain;
   color: #000000;
   outline: none;
   width: 180px;
+  font-size: 1.05rem;
 }
 .search-bar input::placeholder {
   color: #000000;
@@ -138,7 +139,10 @@ object-fit: contain;
   cursor: pointer;
   color: #000;
   background: #eeeeee;
-   font-size: 1rem;
+   font-size: 1.4rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 
 .search-dropdown{

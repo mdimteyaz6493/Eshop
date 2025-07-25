@@ -12,13 +12,13 @@ import './productCategslider.css';
 
 import ProductCard from '../../ProductCard';
 
-const ProductCategSlider = ({ products = [] }) => {
+const ProductCategSlider = ({ products = [] ,slidername}) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
   return (
     <div className="slider-container">
-      <h3 className="slider-title">Smartwatches</h3>
+      <h3 className="slider-title">{slidername}</h3>
 
       {/* Custom navigation buttons */}
       <div className="custom-nav-buttons">

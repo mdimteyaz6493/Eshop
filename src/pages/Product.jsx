@@ -12,6 +12,7 @@ import { HiStar } from "react-icons/hi";
 import "../Styles/Product.css";
 import ProductpageFeatures from "../components/ProductPage/ProductpageFeatures";
 import ProductSpecification from "../components/ProductPage/ProductSpecification";
+import ProductOffer from "../components/ProductPage/ProductOffer";
 
 const Product = () => {
   const { id } = useParams();
@@ -19,8 +20,16 @@ const Product = () => {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [qty, setQty] = useState(1);
   const [selectedImage, setSelectedImage] = useState("");
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+    useEffect(() => {
+      const handleResize = () => setIsMobile(window.innerWidth <= 768);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -138,7 +147,7 @@ const Product = () => {
               </span>
             </div>
             <p>{product.description}</p>
-
+               {!isMobile &&  <ProductOffer/>}
             <label>
               Quantity:
               <select
@@ -172,12 +181,12 @@ const Product = () => {
           </div>
         </div>
       </div>
-
+      {isMobile &&  <ProductOffer/>}
       <ProductpageFeatures />
       <ProductSpecification product={product} />
 
       {relatedProducts.length > 0 && (
-        <ProductCategSlider products={relatedProducts} />
+        <ProductCategSlider products={relatedProducts} slidername={"Related Products"}/>
       )}
 
       <Footer />

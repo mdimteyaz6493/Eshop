@@ -192,10 +192,10 @@ const Header = () => {
               onChange={handleSearchChange}
                ref={searchInputRef}
             />
-            <IoMdClose
+          {isMobile &&   <IoMdClose
               className="search_close_btn"
               onClick={() => setShowMobileSearch(false)}
-            />
+            />}
             {showSearchDropdown && filteredProducts.length > 0 && (
               <div className="search-dropdown show_sd">
                 {filteredProducts.map((product) => (
@@ -210,7 +210,7 @@ const Header = () => {
                     }}
                   >
                     <div className="d_item_img">
-                      <img src={product.image} alt={product.name} />
+                      <img src={product.images[0]} alt={product.name} />
                     </div>
                     <span>{product.name}</span>
                   </Link>

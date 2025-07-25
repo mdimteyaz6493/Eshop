@@ -16,26 +16,35 @@ const Home = () => {
       .catch(console.error);
   }, []);
 
-  // Filter for only Smartwatch category
+  // ✅ Filter for Smartwatches
   const smartwatches = products.filter(
-    (product) => product.category.toLowerCase() === 'smartwatch'
+    (product) => product.category?.toLowerCase() === 'smartwatch'
+  );
+
+  // ✅ Filter for Bestsellers
+  const bestsellers = products.filter(
+    (product) => product.bestseller === true
   );
 
   return (
     <div style={styles.container}>
       <HomeBanner />
-       <CategoriesSlider/>
-      <ProductCategSlider products={smartwatches} />
-      <SmallHomeBanner/>
-      <Footer/>
+      <CategoriesSlider />
 
+      {/* ✅ Show Bestsellers first */}
+      <ProductCategSlider products={bestsellers} slidername={"Best Sellers"} />
+
+      {/* ✅ Then Smartwatches */}
+      <ProductCategSlider products={smartwatches} slidername={"Smart Watches"} />
+
+      <SmallHomeBanner />
+      <Footer />
     </div>
   );
 };
 
 const styles = {
-  container: { padding: '0px',backgroundColor:"white"},
-
+  container: { padding: '0px', backgroundColor: 'white' },
 };
 
 export default Home;

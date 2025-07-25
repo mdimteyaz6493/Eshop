@@ -251,7 +251,7 @@ const AllProduct = () => {
                   className="product-card"
                 >
                   <div className="image_part">
-                    <img src={product.images[5]} alt={product.name} />
+                    <img src={product.images[0]} alt={product.name} />
                   </div>
                   <div className="card_bottom">
                     <div className="card-body">
@@ -274,7 +274,7 @@ const AllProduct = () => {
                      </>}
 
                      {!isMobile &&  <span className="p_desc">
-                        {product.description.length > 100
+                        {product.description.length > 80
                           ? product.description.slice(0, 60) + "..."
                           : product.description}
                       </span>}
