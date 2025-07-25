@@ -10,12 +10,15 @@ import Footer from "../components/Footer/Footer";
 import { HiStar } from "react-icons/hi";
 
 import "../Styles/Product.css";
+import ProductpageFeatures from "../components/ProductPage/ProductpageFeatures";
+import ProductSpecification from "../components/ProductPage/ProductSpecification";
 
 const Product = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [qty, setQty] = useState(1);
+  const [selectedImage, setSelectedImage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,11 +26,14 @@ const Product = () => {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`/products/${id}`);
-        setProduct(res.data);
+        const data = res.data;
+        setProduct(data);
+        setSelectedImage(data.images[0]);
+
 
         const allRes = await axios.get("/products/all");
         const filtered = allRes.data.filter(
-          (p) => p.category === res.data.category && p._id !== res.data._id
+          (p) => p.category === data.category && p._id !== data._id
         );
         setRelatedProducts(filtered);
       } catch (err) {
@@ -38,18 +44,43 @@ const Product = () => {
     fetchProduct();
   }, [id]);
 
+  // For magnifier hover effect
+  useEffect(() => {
+    const container = document.querySelector(".magnifier-container");
+    const image = document.querySelector(".main-product-image");
+
+    const handleMouseMove = (e) => {
+      const { left, top, width, height } = container.getBoundingClientRect();
+      const x = ((e.pageX - left) / width) * 100;
+      const y = ((e.pageY - top) / height) * 100;
+      image.style.setProperty("--x", `${x}%`);
+      image.style.setProperty("--y", `${y}%`);
+    };
+
+    if (container && image) {
+      container.addEventListener("mousemove", handleMouseMove);
+    }
+
+    return () => {
+      if (container && image) {
+        container.removeEventListener("mousemove", handleMouseMove);
+      }
+    };
+  }, [selectedImage]);
+
   const handleAddCart = () => {
     dispatch(
       addToCart({
         product: product._id,
         name: product.name,
         price: product.price,
-        image: product.image,
+        image: selectedImage,
         desc: product.description,
         qty,
       })
     );
     toast.success("Added to cart!");
+    navigate("/cart")
   };
 
   const handleBuyNow = () => {
@@ -57,7 +88,7 @@ const Product = () => {
       product: product._id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: selectedImage,
       qty,
     };
     navigate("/checkout", { state: { buyNowItem: orderItem } });
@@ -69,15 +100,32 @@ const Product = () => {
         <ToastContainer />
         <div className="cont">
           <div className="img_part">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="product-image"
-            />
+            <div className="thumbnails">
+              {Array.isArray(product.images) &&
+                product.images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`thumb-${idx}`}
+                    className={`thumbnail-img ${
+                      selectedImage === img ? "active" : ""
+                    }`}
+                    onClick={() => setSelectedImage(img)}
+                  />
+                ))}
+            </div>
+
+            <div className="magnifier-container">
+              <img
+                src={selectedImage}
+                alt={product.name}
+                className="main-product-image"
+              />
+            </div>
           </div>
+
           <div className="product-info">
             <span className="rating">
-              {" "}
               <HiStar className="star" />
               4.5
             </span>
@@ -89,8 +137,8 @@ const Product = () => {
                 {Math.floor((product.price / (product.price + 1000)) * 100)}% off
               </span>
             </div>
-            {/* <p>About this Item </p>
-            <p>{product.description}</p> */}
+            <p>{product.description}</p>
+
             <label>
               Quantity:
               <select
@@ -104,6 +152,7 @@ const Product = () => {
                 ))}
               </select>
             </label>
+
             <div className="btn_grp">
               <button
                 onClick={handleAddCart}
@@ -124,9 +173,13 @@ const Product = () => {
         </div>
       </div>
 
+      <ProductpageFeatures />
+      <ProductSpecification product={product} />
+
       {relatedProducts.length > 0 && (
         <ProductCategSlider products={relatedProducts} />
       )}
+
       <Footer />
     </>
   ) : (

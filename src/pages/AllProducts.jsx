@@ -22,6 +22,7 @@ const AllProduct = () => {
 
   const filterRef = useRef(null);
   const itemsPerPage = 10;
+  
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
@@ -250,7 +251,7 @@ const AllProduct = () => {
                   className="product-card"
                 >
                   <div className="image_part">
-                    <img src={product.image} alt={product.name} />
+                    <img src={product.images[5]} alt={product.name} />
                   </div>
                   <div className="card_bottom">
                     <div className="card-body">
